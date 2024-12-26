@@ -5,7 +5,7 @@
 
 
 ## 功能
-本软件包实现了对多个蛋白模型预测值和实际值的比较，并输出打分，可用于评估预测模型。
+实现了对大量蛋白模型预测值和实际值的 GDT 方法打分，可用于评估预测模型。
 
 
 ## 安装
@@ -21,11 +21,13 @@ psc -c /path/to/control -t /path/to/treatment -o /path/to/output
 - `-c` 实验值 PDB 文件存放目录。
 - `-t` 预测值 PDB 文件存放目录。
 - `-o` 保存分数的输出目录。
+- `-T` 指定核心数，默认为 4。
+- `-B` 指定 Batch 大小，默认为 5000。
 
 ## 输出
 /path/to/output/protein_scores.csv
 
-| /        | 1A    | 2A    | ... | 128A  |
+| name     | 1A    | 2A    | ... | 128A  |
 |:---------|:------|:------|:----|:------|
 | Protein1 | Score | Score | ... | Score |
 | Protein2 | Score | Score | ... | Score |
@@ -39,7 +41,7 @@ psc -c /path/to/control -t /path/to/treatment -o /path/to/output
 
 
 ## 其他
-- 仅分析输入目录下的 .pdb 文件。
+- 仅分析两个输入目录下的同名 .pdb 文件。
 - `-o` 仅指定输出目录，不精确到文件名。
 - 输出 .csv 文件，文件名是固定的，请小心不要被覆盖。
 
