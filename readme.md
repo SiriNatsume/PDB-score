@@ -1,7 +1,7 @@
 <div align="center">
      <img alt="img.jpg" height="200" src="avatar.png" width="200"/>
 </div>
-<h1 align="center">PDB_score</h1>
+<h1 align="center">PDB-score</h1>
 
 
 ## 功能
@@ -10,7 +10,7 @@
 
 ## 安装
 ```
-pip install PDB_score
+pip install PDB-score
 ```
 
 
