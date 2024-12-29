@@ -3,28 +3,27 @@
 </div>
 <h1 align="center">PDB-score</h1>
 
+[中文文档请点击](readme-zh.md)
 
-## 功能
-实现了对大量蛋白模型预测值和实际值的 GDT 方法打分，可用于评估预测模型。
+## Features
+Implements GDT scoring between a large number of predicted and actual protein models, which can be used to evaluate the prediction models.
 
-
-## 安装
+## Installation
 ```
 pip install PDB-score
 ```
 
-
-## 使用
+## Usage
 ```aiignore
 psc -c /path/to/control -t /path/to/treatment -o /path/to/output
 ```
-- `-c` 实验值 PDB 文件存放目录。
-- `-t` 预测值 PDB 文件存放目录。
-- `-o` 保存分数的输出目录。
-- `-T` 指定核心数，默认为 4。
-- `-B` 指定 Batch 大小，默认为 5000。
+- `-c` Directory where the experimental PDB files are stored.
+- `-t` Directory where the predicted PDB files are stored.
+- `-o` Directory for saving the output scores.
+- `-T` Specify the number of cores, default is 4.
+- `-B` Specify the Batch size, default is 5000.
 
-## 输出
+## Output
 /path/to/output/protein_scores.csv
 
 | name     | 1A    | 2A    | ... | 128A  |
@@ -33,29 +32,27 @@ psc -c /path/to/control -t /path/to/treatment -o /path/to/output
 | Protein2 | Score | Score | ... | Score |
 | ...      | ...   | ...   | ... | ...   |
 
-## 计算方法
-- 采用 GDT 算法计算分数。
-- 去除所有配体，以中心碳原子坐标代表残基坐标。
-- 中心碳原子数量不等时，多余的/少的残基直接记为不满足精度要求（无论精度是多少）。
+## Calculation Method
+- Scores are calculated using the GDT (Global Distance Test) algorithm.
+- All ligands are removed, and only the alpha carbon atoms are used to represent the residue coordinates.
+- When the count of alpha carbons differs, the extra or missing residues are directly considered as failing to meet the accuracy criteria (regardless of the accuracy setting).
 
-## 性能表现
-- 测试环境
-  - 采用默认参数 `-T 4 -B 5000`
-  - 测试机器 `Windows 11 PC，CPU Intel 12600k`
-  - 单份样品大小 146KB，154 残基
-- 比对 50000 份样品用时 387061ms 。
-- 内存占用小于 6GB 。
+## Performance
+- Test Environment:
+  - Default parameters: `-T 4 -B 5000`
+  - Test Machine: `Windows 11 PC, CPU Intel 12600k`
+  - Single sample size: 146KB with 154 residues
+- Comparing 50,000 samples took 387061ms.
+- Memory usage is less than 6GB.
 
+## Additional Notes
+- Only analyzes identically named `.pdb` files in both input directories.
+- The `-o` option only specifies the output directory, not the file name.
+- Outputs a `.csv` file with a fixed file name, so be careful not to overwrite it.
 
-## 其他
-- 仅分析两个输入目录下的同名 .pdb 文件。
-- `-o` 仅指定输出目录，不精确到文件名。
-- 输出 .csv 文件，文件名是固定的，请小心不要被覆盖。
-
-
-## 致谢
-- [JetBrains](https://www.jetbrains.com/zh-cn/)
+## Acknowledgments
+- [JetBrains](https://www.jetbrains.com/)
 - [ChatGPT](https://www.chatgpt.com)
 
-[@SiriNatsume](https://github.com/SiriNatsume)
-祝你愉快 :)
+[@SiriNatsume](https://github.com/SiriNatsume)  
+Wishing you happiness :)
