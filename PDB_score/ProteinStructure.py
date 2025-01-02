@@ -1,4 +1,5 @@
 import numpy as np
+from Bio.PDB import Superimposer, Atom
 
 
 class ProteinStructure:
@@ -57,3 +58,23 @@ class ProteinStructure:
         if self.distances is None:
             self.distances = self.calculate_distances()  # 延迟计算
         return self.distances
+
+    def alignment(self):
+        """
+        原子对齐
+        :return: RMSD 数值
+        """
+        if len(self.atom_control) != len(self.atom_treatment):
+            self.same_len()  # 确保两组坐标长度一致
+
+            # 创建 Bio.PDB.Atom.Atom 对象列表
+        control_atoms = [Atom.Atom(f"Atom{i}", coord, 0, 0, '', ' C  ', i, element='C') for i, coord in enumerate(self.atom_control)]
+        treatment_atoms = [Atom.Atom(f"Atom{i}", coord, 0, 0, '', ' C  ', i, element='C') for i, coord in enumerate(self.atom_treatment)]
+
+        super_imposer = Superimposer()
+        super_imposer.set_atoms(control_atoms, treatment_atoms)
+        super_imposer.apply(treatment_atoms)
+
+        # 将比对好的 treatment_atoms 转化为 NumPy 数组并存储在 self.atom_treatment 中
+        self.atom_treatment = np.array([atom.coord for atom in treatment_atoms])
+        return super_imposer.rms

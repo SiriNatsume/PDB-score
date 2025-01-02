@@ -3,10 +3,10 @@
 </div>
 <h1 align="center">PDB-score</h1>
 
-[中文文档请点击](readme-zh.md)
+[中文文档请点击](https://github.com/SiriNatsume/PDB-score/blob/master/readme-zh.md)
 
 ## Features
-Implements GDT scoring between a large number of predicted and actual protein models, which can be used to evaluate the prediction models.
+Implemented GDT scoring for a large number of predicted and actual protein models, along with calculating RMSD after coordinate alignment, which can be used to evaluate the prediction models.
 
 ## Installation
 ```
@@ -15,7 +15,7 @@ pip install PDB-score
 
 ## Usage
 ```aiignore
-psc -c /path/to/control -t /path/to/treatment -o /path/to/output
+psc [-h] -c /path/to/control -t /path/to/treatment -o /path/to/output [-T THREAT] [-B BATCH]
 ```
 - `-c` Directory where the experimental PDB files are stored.
 - `-t` Directory where the predicted PDB files are stored.
@@ -26,13 +26,14 @@ psc -c /path/to/control -t /path/to/treatment -o /path/to/output
 ## Output
 /path/to/output/protein_scores.csv
 
-| name     | 1A    | 2A    | ... | 128A  |
-|:---------|:------|:------|:----|:------|
-| Protein1 | Score | Score | ... | Score |
-| Protein2 | Score | Score | ... | Score |
-| ...      | ...   | ...   | ... | ...   |
+| name     | RMSD         | 1Å    | 2Å    | ... | 128Å  | Average |
+|:---------|:-------------|:------|:------|:----|:------|:--------|
+| Protein1 | rmsd (float) | Score | Score | ... | Score | Score   |
+| Protein2 | rmsd (float) | Score | Score | ... | Score | Score   |
+| ...      | ...          | ...   | ...   | ... | ...   | ...     |
 
 ## Calculation Method
+- Perform coordinate alignment using Biopython.
 - Scores are calculated using the GDT (Global Distance Test) algorithm.
 - All ligands are removed, and only the alpha carbon atoms are used to represent the residue coordinates.
 - When the count of alpha carbons differs, the extra or missing residues are directly considered as failing to meet the accuracy criteria (regardless of the accuracy setting).
@@ -46,7 +47,7 @@ psc -c /path/to/control -t /path/to/treatment -o /path/to/output
 - Memory usage is less than 6GB.
 
 ## Additional Notes
-- Only analyzes identically named `.pdb` files in both input directories.
+- Only analyze `.pdb` and `.ent` files with the same name (excluding extensions) in the two input directories.
 - The `-o` option only specifies the output directory, not the file name.
 - Outputs a `.csv` file with a fixed file name, so be careful not to overwrite it.
 

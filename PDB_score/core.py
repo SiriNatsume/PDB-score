@@ -18,10 +18,13 @@ def extract_ca_coordinates(structure):
     return ca_coords
 
 
-# 批量解析最多 5000 个 PDB 文件
+# 批量解析最多 batch_size 个 PDB 文件
 def parse_pdb_files(directory, batch_size=5000, thread_count=4):
     pdb_path = Path(directory)
-    pdb_files = [pdb_file.as_posix() for pdb_file in pdb_path.glob("*.pdb")]
+    # pdb_files = [pdb_file.as_posix() for pdb_file in pdb_path.glob("*.pdb")]
+    # 查找 .pdb 和 .ent 文件
+    pdb_files = [pdb_file.as_posix() for pdb_file in pdb_path.glob("*.pdb")] + \
+                [ent_file.as_posix() for ent_file in pdb_path.glob("*.ent")]
     print(f"Batch size = {batch_size}, Total files = {len(pdb_files)}")
     print(f"Using {thread_count} CPU cores...")
 
@@ -54,6 +57,7 @@ def parse_single_pdb_file(file_path):
 # 优化的 protein 评分计算
 def calculate_score(protein, limit):
     limit = float(limit)
+
     distances = protein.get_distances()
 
     score = np.sum(distances < limit)

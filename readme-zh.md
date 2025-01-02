@@ -5,7 +5,7 @@
 
 
 ## 功能
-实现了对大量蛋白模型预测值和实际值的 GDT 方法打分，可用于评估预测模型。
+实现了对大量蛋白模型预测值和实际值的 GDT 方法打分，并计算坐标对齐后的 RMSD，可用于评估预测模型。
 
 
 ## 安装
@@ -16,7 +16,7 @@ pip install PDB-score
 
 ## 使用
 ```aiignore
-psc -c /path/to/control -t /path/to/treatment -o /path/to/output
+psc [-h] -c /path/to/control -t /path/to/treatment -o /path/to/output [-T THREAT] [-B BATCH]
 ```
 - `-c` 实验值 PDB 文件存放目录。
 - `-t` 预测值 PDB 文件存放目录。
@@ -27,13 +27,14 @@ psc -c /path/to/control -t /path/to/treatment -o /path/to/output
 ## 输出
 /path/to/output/protein_scores.csv
 
-| name     | 1A    | 2A    | ... | 128A  |
-|:---------|:------|:------|:----|:------|
-| Protein1 | Score | Score | ... | Score |
-| Protein2 | Score | Score | ... | Score |
-| ...      | ...   | ...   | ... | ...   |
+| name     | RMSD         | 1Å    | 2Å    | ... | 128Å  | Average |
+|:---------|:-------------|:------|:------|:----|:------|:--------|
+| Protein1 | rmsd (float) | Score | Score | ... | Score | Score   |
+| Protein2 | rmsd (float) | Score | Score | ... | Score | Score   |
+| ...      | ...          | ...   | ...   | ... | ...   | ...     |
 
 ## 计算方法
+- 使用 Biopython 进行坐标对齐。
 - 采用 GDT 算法计算分数。
 - 去除所有配体，以中心碳原子坐标代表残基坐标。
 - 中心碳原子数量不等时，多余的/少的残基直接记为不满足精度要求（无论精度是多少）。
@@ -48,7 +49,7 @@ psc -c /path/to/control -t /path/to/treatment -o /path/to/output
 
 
 ## 其他
-- 仅分析两个输入目录下的同名 .pdb 文件。
+- 仅分析两个输入目录下的同名（不含后缀）`.pdb` 和 `.ent` 文件。
 - `-o` 仅指定输出目录，不精确到文件名。
 - 输出 .csv 文件，文件名是固定的，请小心不要被覆盖。
 
