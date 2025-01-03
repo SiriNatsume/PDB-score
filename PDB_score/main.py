@@ -43,7 +43,7 @@ def main():
     # 计算评分并保存结果
     # 替代逐行追加列表，用生成器写入 CSV
     with open(os.path.join(output_dir, 'protein_scores.csv'), 'w', encoding='utf-8') as output_csv:
-        head = "name,RMSD," + ",".join([f"{2 ** i}Å" for i in range(8)]) + ",Average\n"
+        head = "name,RMSD," + ",".join([f"{2 ** i}A" for i in range(8)]) + ",Average\n"
         output_csv.write(head)
         for protein in protein_structures:
             scores = {}

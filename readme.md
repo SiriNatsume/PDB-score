@@ -26,7 +26,7 @@ psc [-h] -c /path/to/control -t /path/to/treatment -o /path/to/output [-T THREAT
 ## Output
 /path/to/output/protein_scores.csv
 
-| name     | RMSD         | 1Å    | 2Å    | ... | 128Å  | Average |
+| name     | RMSD         | 1A    | 2A    | ... | 128A  | Average |
 |:---------|:-------------|:------|:------|:----|:------|:--------|
 | Protein1 | rmsd (float) | Score | Score | ... | Score | Score   |
 | Protein2 | rmsd (float) | Score | Score | ... | Score | Score   |
